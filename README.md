@@ -46,7 +46,6 @@ On successfull build of the executable run the below command to launch the execu
 
 ###  Notes
 - 🔹Tested on Ubuntu/Linux.  
-- 
 - 🔹Compatible with POSIX-compliant terminals.
 
 
