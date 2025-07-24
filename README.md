@@ -26,7 +26,7 @@
 
 - 🔹 **Accurate exit status** reporting with `$?` like in standard shells
 
-- 🔹 **To exit the minishell execute ** `exit`
+- 🔹 **To exit the minishell execute** `exit`
 
 ##  Getting Started
 
