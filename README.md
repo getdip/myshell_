@@ -31,18 +31,18 @@
 ##  Getting Started
 
 ### Requirements
-  🔹C compiler (GCC)
+  🔹C compiler (GCC)  
   🔹Make
 
 ### Build & Run
 
 Run below command to build the executable file `myshell`
 
-**make**
+>**make**
 
 On successfull build of the executable run the below command to launch the executable `myshell`
 
-**make run**
+>**make run**
 
 
 
