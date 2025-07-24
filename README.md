@@ -13,6 +13,7 @@
   - `jobs` – List active background/stopped jobs
 
 - 🔹 **External command execution** using `execvp()`
+- 🔹 **Allow multiple processes communication by using pipes using** `|`
 
 - 🔹 **Background execution** using `&`
 
