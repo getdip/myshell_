@@ -15,7 +15,7 @@
 - 🔹 **External command execution** using `execvp()`
 - 🔹 **Allow multiple processes communication by pipes using** `|`
 
-- 🔹 **Background execution** using `&`
+- 🔹 **Background process scheduling** using `&`
 
 - 🔹 **Signal handling**:
   - `Ctrl+C` (SIGINT) — Interrupt foreground process
