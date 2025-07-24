@@ -26,6 +26,8 @@
 
 - 🔹 **Accurate exit status** reporting with `$?` like in standard shells
 
+- 🔹 **To exit the minishell execute ** `exit`
+
 ##  Getting Started
 
 ### Requirements
@@ -34,9 +36,14 @@
 
 ### Build & Run
 
+Run below command to build the executable file `myshell`
+
+**make**
+
+On successfull build of the executable run the below command to launch the executable `myshell`
+
+**make run**
 
 
 
-```sh
-make           # Build the shell
-./minishell    # Launch it
+
