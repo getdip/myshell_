@@ -69,7 +69,7 @@ void getword(char *temp,char *res[]){
 }
 
 /** 
-    Check_cmd() checks for type of command (INTERNAL, EXTERNAL, pipe_grp, ECHO) 
+    Checks for type of command (INTERNAL, EXTERNAL, pipe_grp, ECHO) 
 */
 int check_cmd(char *buf,char* cmd[]){
 
