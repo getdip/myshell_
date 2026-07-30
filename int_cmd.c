@@ -1,13 +1,13 @@
 #include "main.h"
 
+
+/** 
+ Implementation of commands--
+ cd, pwd, jobs,fg, bg
+*/
 void int_cmd(char *buf[]){
     exit_val=0;
-
-    /** 
-        Implementation of commands--
-        cd, pwd, jobs,fg, bg
-    */
-    
+ 
     /**
         cd ==> change directory as per user mentioned path. If path not provided changes to default /home/<username> 
     */
