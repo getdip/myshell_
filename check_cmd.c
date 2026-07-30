@@ -4,7 +4,10 @@ char pipe_cnt=0;
 
 
 int r,len,c;
-void getword(char *temp,char *res[]){       // Parses the command line buffer, creates an array of space separated strings and returns it to the calling function
+/**
+    Parses the command line buffer, creates an array of space separated strings and puts it into res[]
+*/
+void getword(char *temp,char *res[]){       
     r=0;
     char *ptr=temp;
     c=0;                                    
@@ -65,7 +68,9 @@ void getword(char *temp,char *res[]){       // Parses the command line buffer, c
     }
 }
 
-// check_cmd() checks for type of command (INTERNAL, EXTERNAL, pipe_grp, ECHO)
+/** 
+    Check_cmd() checks for type of command (INTERNAL, EXTERNAL, pipe_grp, ECHO) 
+*/
 int check_cmd(char *buf,char* cmd[]){
 
     run_bg=0;
