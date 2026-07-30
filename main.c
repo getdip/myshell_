@@ -34,46 +34,44 @@ void handler_SIGCHLD(int sig){
 
 
 void return_prompt(int sig){
-
     redisplay_prompt=1;
 }
 
-
 int main(){
-
-    //Get the path for the shell process into a  buffer
+    
+    /* Get the path for the shell process into a  buffer */
     if(getcwd(shell_path,sizeof(shell_path))!=NULL);
-
-    //Configure the parameters for SIGCHLD handler
+    
+    /* Configure the parameters for SIGCHLD handler */
     struct sigaction tr_chld;
     tr_chld.sa_handler = handler_SIGCHLD;
     sigemptyset(&tr_chld.sa_mask);
     tr_chld.sa_flags=SA_RESTART | SA_NOCLDSTOP;
 
-    //Signal handling for SIGCHLD signal (whenever any child terminates)
+    /* Signal handling for SIGCHLD signal (whenever any child terminates) */
     sigaction(SIGCHLD,&tr_chld,NULL);
 
-    //Configure the parameters for SIGTTIN and SIGTTOU handler (Ignore the signals)
+    /* Configure the parameters for SIGTTIN and SIGTTOU handler (Ignore the signals) */
     struct sigaction signal_IGN;
     signal_IGN.sa_handler = SIG_IGN;
     sigemptyset(&signal_IGN.sa_mask);
 
-    //Signal handling for SIGTTIN and SIGTTOU handler (terminal I/O control)
+    /* Signal handling for SIGTTIN and SIGTTOU handler (terminal I/O control) */
     sigaction(SIGTTIN,&signal_IGN,NULL);
     sigaction(SIGTTOU,&signal_IGN,NULL);
 
-    //Configure the parameters for SIGINT and SIGTSTP handler
+    /* Configure the parameters for SIGINT and SIGTSTP handler */
     struct sigaction signal_return;
     signal_return.sa_handler= return_prompt;
     sigemptyset(&signal_return.sa_mask);
     signal_return.sa_flags=0;
 
-    //Signal handling for SIGINT and SIGTSTP handler (SIGINT - ctrl + c [from keyboard], SIGTSTP - ctrl + z [from keyboard])
+    /* Signal handling for SIGINT and SIGTSTP handler (SIGINT - ctrl + c [from keyboard], SIGTSTP - ctrl + z [from keyboard]) */
     sigaction(SIGINT,&signal_return,NULL);
     sigaction(SIGTSTP,&signal_return,NULL);
 
     
-    //Reading input from terminal
+    /* Reading input from terminal */
     tty_fd = open("/dev/tty", O_RDWR);
     FILE *tty = fdopen(tty_fd,"r+");
 
@@ -82,7 +80,7 @@ int main(){
         exit(1);
     }
 
-    char prompt[20]="minishell$";   //Default prompt
+    char prompt[20]="minishell$";   /* Default prompt */
     char input[1024];
     short int cmd_type;
     char* cmd_buf[20];
@@ -92,14 +90,11 @@ int main(){
     tcsetpgrp(tty_fd,shell_pgid);
     tcgetattr(tty_fd,&shell_modes);
 
-
-while(1){                               //Super Loop for the Prompt
-
-    //Resets
-    pipe_cnt=0;                         //Pipe count
+/* Super Loop for the Prompt */
+while(1){                               
+    pipe_cnt=0;                         
     errno=0;
-
-    //Redisplay of prompt after any command execution
+    /* Redisplay of prompt after any command execution */
     if(redisplay_prompt){
         fprintf(tty,"\n");
         redisplay_prompt=0;
@@ -112,7 +107,7 @@ while(1){                               //Super Loop for the Prompt
     fputs(prompt,tty);
     fflush(tty);
   
-   //Taking user command after prompt from tty 
+   /* Taking user command after prompt from tty */
     if (!fgets(input, sizeof(input), tty)) {
         if(errno == EINTR){
             clearerr(tty);
@@ -126,38 +121,34 @@ while(1){                               //Super Loop for the Prompt
     }
     input[strlen(input)-1]='\0';
 
-    
-    if(input[0]=='\0')continue;          //Re-display prompt if only Enter pressed at prompt 
+    /* Re-display prompt if only Enter pressed at prompt */
+    if(input[0]=='\0')continue;           
 
-    else{                                //Else start parsing the command buffer and proceed further
-
-        if(!strcmp(input,"exit")) return SUCCESS;   // Exit the myshell program
-    
-        else if(!strncmp(input,"PS1=",4))           // user defined prompt
+    /* Else start parsing the command buffer and proceed further */
+    else{
+    /* Exit the myshell program */
+        if(!strcmp(input,"exit")) return SUCCESS;   
+    /* User defined prompt */
+        else if(!strncmp(input,"PS1=",4))          
         {
             strcpy(prompt,input+4);
         }
-
-        else if((cmd_type=check_cmd(input,cmd_buf))==INTERNAL){     //check if user entered Internal command (cd,pwd,jobs,fg,bg)
+    /* check if user entered Internal commands - (cd,pwd,jobs,fg,bg)*/
+        else if((cmd_type=check_cmd(input,cmd_buf))==INTERNAL){     
             int_cmd(cmd_buf);    
         }
-
-        else if(cmd_type == ECHO) echo(cmd_buf);                    //Check for echo commands
-
-        else if(cmd_type == pipe_grp)pipe_func(cmd_buf);            //Check if command contains a pipe '|'
-
-        else if(cmd_type==EXTERNAL){                                //Check for external command                                           
-        
+    /* Check for echo commands */
+        else if(cmd_type == ECHO) echo(cmd_buf);                    
+    /* Check if command contains a pipe '|' */
+        else if(cmd_type == pipe_grp)pipe_func(cmd_buf);
+    /* Check for external command */
+        else if(cmd_type==EXTERNAL){                                                                           
             ext_cmnd(cmd_buf);
-
         continue;
         }
-
         else{
             printf("%s: command not found\n",input);
         }
     }
- 
 }
-
 }
